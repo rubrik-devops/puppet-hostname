@@ -9,7 +9,7 @@ class hostname::params () {
   $ip = '127.0.0.1'
 
  # Added switch to bypass /etc/hosts edits
-  $edit_hosts = false
+  $updatehosts = false
 
   # Array of Puppet service names to be reloaded after hostname change.
   # Generally you will need to at least restart syslog (or variant).

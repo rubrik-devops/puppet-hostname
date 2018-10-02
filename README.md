@@ -36,6 +36,9 @@ the hostname and the domain, eg:
     hostname::hostname: host1
     hostname::domain: example.com
 
+Also, the module can update /etc/hosts if so desired, eg:
+
+    hostname::updatehosts: true
 
 Include the module in the usual fashion, ideally somewhere like your SOE module
 so your hostname is set before the installation of most services.

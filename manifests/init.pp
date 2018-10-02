@@ -4,7 +4,7 @@ class hostname (
   $domain             = $hostname::params::domain,
   $ip                 = $hostname::params::ip,
   $reloads            = $hostname::params::reloads,
-  $edit_hosts            = $hostname::params::edit_hosts,
+  $updatehosts            = $hostname::params::updatehosts,
   ) inherits hostname::params {
 
   # Generate hostname
@@ -35,7 +35,7 @@ class hostname (
   }
 
   # Make sure the hosts file has an entry
-  if ($edit_hosts) {
+  if ($updatehosts) {
     host { 'default hostname v4':
       ensure        => present,
       name          => $set_fqdn,
