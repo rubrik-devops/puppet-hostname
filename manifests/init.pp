@@ -4,6 +4,7 @@ class hostname (
   $domain             = $hostname::params::domain,
   $ip                 = $hostname::params::ip,
   $reloads            = $hostname::params::reloads,
+  $edit_hosts            = $hostname::params::edit_hosts,
   ) inherits hostname::params {
 
   # Generate hostname
@@ -34,26 +35,28 @@ class hostname (
   }
 
   # Make sure the hosts file has an entry
-  host { 'default hostname v4':
-    ensure        => present,
-    name          => $set_fqdn,
-    host_aliases  => $hostname,
-    ip            => $ip,
-    comment       => 'Hostname and FQDN',
-  }
+  if ($edit_hosts) {
+    host { 'default hostname v4':
+      ensure        => present,
+      name          => $set_fqdn,
+      host_aliases  => $hostname,
+      ip            => $ip,
+      comment       => 'Hostname and FQDN',
+    }
 
   # If using FQDN, make sure the old hostname hostname entry has been removed
   # otherwise the FQDN will not work. This should be fixed by use of comment
   # parameter above from 2017-01-18 onwards so at some stage this block could
   # be removed.
-  if ($domain) {
-    host { 'hostname without fqdn':
-      ensure        => absent,
-      name          => $hostname,
-      host_aliases  => $hostname,
-      ip            => $ip,
+    if ($domain) {
+      host { 'hostname without fqdn':
+        ensure        => absent,
+        name          => $hostname,
+        host_aliases  => $hostname,
+        ip            => $ip,
+      }
     }
-  }
+  }  
 
 # TODO: This won't work yet thanks to an ancient puppet bug:
 # https://projects.puppetlabs.com/issues/8940
